@@ -13,7 +13,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-
+    <properties>
+        <dubbo-starter.version>1.0.10</dubbo-starter.version>
+        <dubbo.version>2.6.0</dubbo.version>
+        <zkclient.version>0.10</zkclient.version>
+    </properties>
     <dependencies>
 
         <dependency>
@@ -42,6 +46,25 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>${zkclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gitee.reger</groupId>
+            <artifactId>spring-boot-starter-dubbo</artifactId>
+            <version>${dubbo-starter.version}</version>
         </dependency>
 
     </dependencies>

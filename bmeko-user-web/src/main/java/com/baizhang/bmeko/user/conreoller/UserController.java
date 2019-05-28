@@ -1,6 +1,7 @@
-package com.baizhang.bmeko.user.controller;
+package com.baizhang.bmeko.user.conreoller;
 
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.baizhang.bmeko.bean.UserInfo;
 import com.baizhang.bmeko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 public class UserController {
 
 
-    @Autowired
+    @Reference
     UserService userService;
 
     @RequestMapping("userInfoList")
