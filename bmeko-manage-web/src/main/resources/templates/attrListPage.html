@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table title="属性列表" class="easyui-datagrid" style="width:100%;height:100%"
+       data-options="fitColumns:true,singleSelect:true,toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th data-options="field:'id',width:100">编码</th>
+        <th data-options="field:'attrName',width:100">属性名称</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
+    <div>
+        一级分类：<input id="cc1" class="easyui-combobox" data-options=""/>
+        二级分类：<input id="cc2" class="easyui-combobox" data-options=""/>
+        三级分类：<input id="cc3" class="easyui-combobox" data-options=""/>
+    </div>
+</div>
+</body>
+</html>
