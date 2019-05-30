@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<table title="属性列表" class="easyui-datagrid" style="width:100%;height:100%"
+<table id="dg" title="属性列表" class="easyui-datagrid" style="width:100%;height:100%"
        data-options="fitColumns:true,singleSelect:true,toolbar:'#tb'">
     <thead>
     <tr>
@@ -15,14 +15,61 @@
     </thead>
 </table>
 <div id="tb">
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
+    <a href="javascript:addAttr();" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+    <a href="javascript:editAttr();" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
     <div>
-        一级分类：<input id="cc1" class="easyui-combobox" data-options=""/>
-        二级分类：<input id="cc2" class="easyui-combobox" data-options=""/>
-        三级分类：<input id="cc3" class="easyui-combobox" data-options=""/>
+        一级分类：<input id="ctg1ForAttrList" class="easyui-combobox" data-options="valueField:'id',textField:'name',url:'getCatalog1',
+        onSelect: function(rec){
+            var url = 'getCatalog2?catalog1Id='+rec.id;
+            $('#ctg2ForAttrList').combobox('reload', url);}"/>
+        二级分类：<input id="ctg2ForAttrList" class="easyui-combobox" data-options="valueField:'id',textField:'name',
+        onSelect: function(rec){
+            var url = 'getCatalog3?catalog2Id='+rec.id;
+            $('#ctg3ForAttrList').combobox('reload', url);}"/>
+        三级分类：<input id="ctg3ForAttrList" class="easyui-combobox" data-options="valueField:'id',textField:'name'"/>
+
+        <a href="javascript:reloadAttrList();" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="width:120px">刷新属性列表</a>
+
     </div>
 </div>
+
+<div th:include="attrInfoPage"></div>
+<script language="JavaScript">
+    function reloadAttrList() {
+        var ctg3Id = $("#ctg3ForAttrList").combobox("getValue");
+
+        $("#dg").datagrid({
+            url:"getAttrList?catalog3Id="+ctg3Id
+        });
+    };
+
+    function addAttr() {
+        var catalog3Id=$("#ctg3ForAttrList").combobox("getValue");
+        //打开属性添加的对话框
+        if(catalog3Id){
+            $("#dlg").dialog("open");
+            //初始化
+            initAttrValueDatagrid();
+        }else{
+            alert("请选择三级分类id");
+        }
+    }
+
+    function editAttr() {
+        var catalog3Id=$("#ctg3ForAttrList").combobox("getValue");
+        //打开属性添加的对话框
+        if(catalog3Id){
+            $("#dlg").dialog("open");
+            //初始化
+            var attrInfo = $("#dg").datagrid("getSelected");
+            initAttrValueDatagrid(attrInfo);
+        }else{
+            alert("请选择三级分类id");
+        }
+
+    }
+
+</script>
 </body>
 </html>
