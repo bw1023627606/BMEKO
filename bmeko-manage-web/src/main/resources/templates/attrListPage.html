@@ -38,16 +38,17 @@
 <script language="JavaScript">
     function reloadAttrList() {
         var ctg3Id = $("#ctg3ForAttrList").combobox("getValue");
-
         $("#dg").datagrid({
             url:"getAttrList?catalog3Id="+ctg3Id
         });
     };
-
     function addAttr() {
         var catalog3Id=$("#ctg3ForAttrList").combobox("getValue");
         //打开属性添加的对话框
         if(catalog3Id){
+            //初始化数据
+            $("#dg_av").datagrid({url:""});
+            $("#dg_av").datagrid('loadData',{total:0,rows:[]});//行号初始化
             $("#dlg").dialog("open");
             //初始化
             initAttrValueDatagrid();
@@ -55,7 +56,6 @@
             alert("请选择三级分类id");
         }
     }
-
     function editAttr() {
         var catalog3Id=$("#ctg3ForAttrList").combobox("getValue");
         //打开属性添加的对话框
@@ -67,9 +67,7 @@
         }else{
             alert("请选择三级分类id");
         }
-
     }
-
 </script>
 </body>
 </html>

@@ -31,6 +31,7 @@ public class AttrServiceImpl implements AttrService {
 
     @Override
     public void saveAttr(BaseAttrInfo baseAttrInfo) {
+
         baseAttrInfoMapper.insertSelective(baseAttrInfo);
 
         List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
@@ -40,7 +41,18 @@ public class AttrServiceImpl implements AttrService {
 
             baseAttrValueMapper.insert(baseAttrValue);
         }
+        }
 
 
+    @Override
+    public BaseAttrInfo getAttrInfo(String id) {
+        //查询属性基本信息
+        BaseAttrInfo baseAttrInfo = baseAttrInfoMapper.selectByPrimaryKey(id);
+        //查询属性对应的值
+        BaseAttrValue baseAttrValue = new BaseAttrValue();
+        baseAttrValue.setAttrId(id);
+        List<BaseAttrValue> baseAttrValueList = baseAttrValueMapper.select(baseAttrValue);
+        baseAttrInfo.setAttrValueList(baseAttrValueList);
+        return baseAttrInfo;
     }
 }

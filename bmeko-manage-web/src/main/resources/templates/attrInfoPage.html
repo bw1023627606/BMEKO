@@ -6,35 +6,31 @@
 </head>
 <body>
 
-    <div id="dlg" class="easyui-dialog" title="编辑属性" style="width:600px;height:500px;"
-         closed="true"  data-options="iconCls:'icon-save',resizable:true,modal:true" buttons="#bb" >
-            <label>属性名称:</label>
-            <input  id="attrName" name="attrName" class="easyui-textbox" data-options="" style="width:100px"/>
-            <input  id="attrId" name="attrId" type="hidden"  />
-            <br/><br/>
-            <table id="dg_av" class="easyui-datagrid" title="属性值列表"></table>
-    </div>
+<div id="dlg" class="easyui-dialog" title="编辑属性" style="width:600px;height:500px;"
+     closed="true"  data-options="iconCls:'icon-save',resizable:true,modal:true" buttons="#bb" >
+    <label>属性名称:</label>
+    <input  id="attrName" name="attrName" class="easyui-textbox" data-options="" style="width:100px"/>
+    <input  id="attrId" name="attrId" type="hidden"  />
+    <br/><br/>
+    <table id="dg_av" class="easyui-datagrid" title="属性值列表"></table>
+</div>
 
-    <div id="bb">
-        <a href="#" class="easyui-linkbutton" onclick="saveAttr()">保存</a>
-        <a href="#" class="easyui-linkbutton">关闭</a>
-    </div>
+<div id="bb">
+    <a href="#" class="easyui-linkbutton" onclick="saveAttr()">保存</a>
+    <a href="#" class="easyui-linkbutton">关闭</a>
+</div>
 
 <script language="JavaScript">
-
     function saveAttr() {
-
         var catalog3Id = $("#ctg3ForAttrList").combobox("getValue");
         var attrName = $("#attrName").val();
         var attrInfo={};
         attrInfo["attrName"]=attrName;
         attrInfo["catalog3Id"]=catalog3Id;
-
         var rows = $("#dg_av").datagrid("getRows");
         $(rows).each(function (i,json) {
             attrInfo["attrValueList["+i+"].valueName"]=json.valueName;
         });
-
         $.get("saveAttr",attrInfo,function (data) {
             alert(data);
             //关闭窗口
@@ -43,7 +39,6 @@
             $("#dg").datagrid("reload","getAttrList?catalog3Id="+catalog3Id);
         });
     }
-
     function initAttrValueDatagrid(attrInfo){
         var d = $('#dg_av').datagrid({
             columns:[[
@@ -60,7 +55,7 @@
                 iconCls: 'icon-add',
                 text:"添加",
                 handler: function(){
-                   //新增一行
+                    //新增一行
                     $("#dg_av").datagrid("appendRow",{
                         id:"",
                         valueName:""
@@ -87,21 +82,14 @@
                     d.datagrid('endEdit',rowIndex);
                 });
             }
-
-
         });
-
         if(attrInfo){
             //给attrName赋值
             $("#attrName").textbox("setText",attrInfo.attrName);
-
             //给属性值列表赋值
-           // $("#dg_av").textbox("setText",attrInfo.valueName);
-
+            // $("#dg_av").textbox("setText",attrInfo.valueName);
         }
-
     }
-
 </script>
 </body>
 </html>

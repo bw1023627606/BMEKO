@@ -8,4 +8,6 @@ public interface AttrService {
     List<BaseAttrInfo> getAttrList(String catalog3Id);
 
     void saveAttr(BaseAttrInfo baseAttrInfo);
+
+    BaseAttrInfo getAttrInfo(String id);
 }

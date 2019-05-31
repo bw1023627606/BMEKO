@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-----------------弹出框----------------------------->
+<div id="spu_dlg" class="easyui-dialog" title="编辑spu" style="width:700px;height:520px;"
+     closed="true"  data-options="iconCls:'icon-save',resizable:true,modal:false" buttons="#spuBtns">
+    <form id="spuForm">
+        <br/>
+        <label>spu名称:</label>
+        <input  id="spuName" name="spuName" class="easyui-textbox" data-options="" style="width:300px;"/>
+        <br/><br/>
+        <label>spu描述:</label>
+        <input  id="description" name="description" class="easyui-textbox" data-options="multiline:true"
+       style="width:500px;height:100px"/>     
+        <input id="spuId" name="spuId" type="hidden"/>
+                <br/><br/>
+          <!----------------商品图片列表 ----------------------->      
+        <table id="spuImgDg" class="easyui-datagrid" title="商品图片列表"
+                              data-options="singleSelect:true,method:'get',toolbar:'#spuImgTootbar'"></table>
+                <!----------------图片列表工具栏----------------------->         
+        <div id="spuImgTootbar" style="padding:5px;height:auto"  >            
+            <div style="margin-bottom:5px">
+                                <a href=" " id="spuImgAdd" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加图片</a>
+                                <a href="#" id="spuImgUploadBtn" class="easyui-linkbutton" iconCls="icon-save"
+                                   plain="true">图片上传</a>
+                                <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>          
+            </div>
+                    
+        </div>
+                <br/><br/>
+
+         <!----------------销售属性列表---------------------------->
+                
+        <table id="spuSaleAttrDg" class="easyui-datagrid" title="销售属性列表"
+                              data-options="singleSelect:true,method:'get',toolbar:'#spuSaleAttrTootbar'"></table>
+
+                <!----------------销售属性列表工具栏----------------------->
+                
+        <div id="spuSaleAttrTootbar" style="padding:5px;height:auto"  >
+                        
+            <div style="margin-bottom:5px">
+                <a href="#" id="spuSaleAttrAddBtn" class="easyui-linkbutton" iconCls="icon-add" onclick="addSpuSaleAttr()" plain="true">添加销售属性</a>
+                <a href="#" id="spuSaleAttrEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editSpuSaleAttr()">编辑销售属性</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+                            
+            </div>
+                    
+        </div>
+
+                
+        <div th:include="spuSaleAttrPage"></div>
+
+            
+    </form>
+</div>
+
+<!----------------弹出框的按钮组----------------------->
+<div id="spuBtns">
+        <a href="#" class="easyui-linkbutton" onclick="saveSpu()">保 存</a>
+        <a href="#" class="easyui-linkbutton" onclick="closeSpu()">关 闭</a>
+</div>
+
+<script language="JavaScript">
+
+    function saveSpu() {
+        //获取spu的json格式的js数据对象
+        var spuInfo = {};
+        spuInfo["spuName"] = $("#spuName").val("getValue");
+        spuInfo["description"] = $("#description").val("getValue");
+        spuInfo["catalog3Id"] = $("#ctg3ForSpuList").combobox("getValue");
+        var attrRows = $("#spuSaleAttrDg").datagrid("getRows");
+        $(attrRows).each(function (i,attr){
+            //封装销售属性
+            spuInfo["spuSaleAttrList["+i+"].saleAttrId"] = attr.saleAttrId;
+            spuInfo["spuSaleAttrList["+i+"].saleAttrName"] = attr.saleAttrName;
+            //封装销售属性值
+            var attrValueRows = attr.spuSaleAttrValueJson.rows;
+            $(attrValueRows).each(function (j,attrValue){
+                spuInfo["spuSaleAttrList["+i+"].spuSaleAttrValueList["+j+"].saleAttrId"] = attr.saleAttrId;
+                spuInfo["spuSaleAttrList["+i+"].spuSaleAttrValueList["+j+"].saleAttrValueName"] = attrValue.saleAttrValueName;
+            });
+
+        });
+
+      //异步保存
+        console.log(spuInfo);
+        $.ajax({
+            url:"saveSpu",
+            type:'get',
+            processData:false,
+            dataType:'json',
+            data:spuInfo,
+            success:function (data) {
+                alert(data);
+                //关闭对话框
+                $("#spu_dlg").dialog("close");
+                //刷新spu列表
+            }
+        })
+       /* $.get("saveSpu",spuInfo,function (data) {
+            alert(data);
+            //关闭对话框
+            $("#spu_dlg").dialog("close");
+            //刷新spu列表
+        })*/
+
+
+    }
+    function initSpuInfoDlg() {
+        //初始化图片列表
+        initSpuImgListDatagrid();
+        //初始化销售列表
+        initSpuAttrListDatagrid();
+    }
+
+    function initSpuImgListDatagrid() {
+
+        $("#spuImgDg").datagrid({
+            columns:[[
+                {field:'id',title:'文件编号',width:100},
+                {field:'imgName',title:'图片简称',width:100},
+                {field:'process',title:'上传进度',width:100,align:'right'},
+                {field:'processStatus',title:'上传状态',width:100,align:'right'},
+                {field:'imgUrl',title:'',width:100,align:'right',hidden:true}
+            ]]
+        })
+    }
+    function initSpuAttrListDatagrid() {
+        $("#spuSaleAttrDg").datagrid({
+            columns:[[
+                {field:'id',title:'id',hidden: true},
+                {field:'saleAttrId',title:'销售属性id',width:100},
+                {field:'saleAttrName',title:'销售属性简称',width:100},
+                {field:'spuSaleAttrValueJson',title:'页面暂存',width:200,align:'right'}
+            ]]
+        })
+
+    }
+    function addSpuSaleAttr() {
+        //初始化数据
+        $("#spuSaleAttrValueDg").datagrid({url:""});
+        $("#spuSaleAttrValueDg").datagrid('loadData',{total:0,rows:[]});//行号初始化
+        //打开spu销售属性的对话框
+        $("#spuSaleAttr_dlg").dialog("open");
+        //初始化spu销售属性对话框
+        initSpuSaleAttrDlg();
+
+    }
+
+
+</script>
+
+</body>
+</html>
