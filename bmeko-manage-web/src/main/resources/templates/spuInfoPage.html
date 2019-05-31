@@ -70,8 +70,10 @@
     function saveSpu() {
         //获取spu的json格式的js数据对象
         var spuInfo = {};
-        spuInfo["spuName"] = $("#spuName").val();
-        spuInfo["description"] =$("#description").val();
+        // spuInfo["description"] =$("#description").val('getValue');
+        // spuInfo["spuName"] = $("#spuName").val();
+        spuInfo["spuName"] = $("input[name=spuName]").parent().prev().textbox('getValue');
+        spuInfo["description"] =$("input[name=description]").parent().prev().textbox('getValue');
         spuInfo["catalog3Id"] = $("#ctg3ForSpuList").combobox("getValue");
 
         var attrRows = $("#spuSaleAttrDg").datagrid("getRows");
@@ -86,7 +88,7 @@
                 spuInfo["spuSaleAttrList["+i+"].spuSaleAttrValueList["+j+"].saleAttrValueName"] = attrValue.saleAttrValueName;
             })
         });
-        console.log(JSON.stringify(spuInfo));
+        // console.log(JSON.stringify(spuInfo));
          //异步保存
         $.get("saveSpu",spuInfo,function (data) {
             alert(data);
