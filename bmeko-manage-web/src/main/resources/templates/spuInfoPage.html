@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 <!-----------------弹出框----------------------------->
@@ -69,9 +70,10 @@
     function saveSpu() {
         //获取spu的json格式的js数据对象
         var spuInfo = {};
-        spuInfo["spuName"] = $("#spuName").val("getValue");
-        spuInfo["description"] = $("#description").val("getValue");
+        spuInfo["spuName"] = $("#spuName").val();
+        spuInfo["description"] =$("#description").val();
         spuInfo["catalog3Id"] = $("#ctg3ForSpuList").combobox("getValue");
+
         var attrRows = $("#spuSaleAttrDg").datagrid("getRows");
         $(attrRows).each(function (i,attr){
             //封装销售属性
@@ -82,31 +84,16 @@
             $(attrValueRows).each(function (j,attrValue){
                 spuInfo["spuSaleAttrList["+i+"].spuSaleAttrValueList["+j+"].saleAttrId"] = attr.saleAttrId;
                 spuInfo["spuSaleAttrList["+i+"].spuSaleAttrValueList["+j+"].saleAttrValueName"] = attrValue.saleAttrValueName;
-            });
-
+            })
         });
-
-      //异步保存
-        console.log(spuInfo);
-        $.ajax({
-            url:"saveSpu",
-            type:'get',
-            processData:false,
-            dataType:'json',
-            data:spuInfo,
-            success:function (data) {
-                alert(data);
-                //关闭对话框
-                $("#spu_dlg").dialog("close");
-                //刷新spu列表
-            }
-        })
-       /* $.get("saveSpu",spuInfo,function (data) {
+        console.log(JSON.stringify(spuInfo));
+         //异步保存
+        $.get("saveSpu",spuInfo,function (data) {
             alert(data);
             //关闭对话框
             $("#spu_dlg").dialog("close");
             //刷新spu列表
-        })*/
+        })
 
 
     }
