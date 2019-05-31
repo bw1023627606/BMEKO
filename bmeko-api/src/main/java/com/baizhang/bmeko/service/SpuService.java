@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface SpuService {
     List<SpuInfo> spuList(String catalog3Id);
+
+    void saveSpu(SpuInfo spuInfo);
+
 }

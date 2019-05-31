@@ -5,7 +5,9 @@ import com.baizhang.bmeko.bean.SpuInfo;
 import com.baizhang.bmeko.service.SpuService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.List;
 
@@ -25,8 +27,18 @@ public class SpuController {
     @RequestMapping("/saveSpu")
     @ResponseBody
     public String saveSpu(SpuInfo spuInfo){
-
+        spuService.saveSpu(spuInfo);
         return "success";
     }
+
+
+    /*@RequestMapping("/fileUpload")
+    @ResponseBody
+    public String fileUpload(@RequestParam("file") MultipartFile file){
+        //fdfs的上传工具
+        return "https://ecmb.bdimg.com/tam-ogel/1a8e9380811fe098ff7288695a9cfcd4_259_194.jpg";
+    }*/
+
+
 
 }

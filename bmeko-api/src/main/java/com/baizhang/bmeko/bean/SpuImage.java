@@ -54,4 +54,14 @@ public class SpuImage implements Serializable {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+    @Override
+    public String toString() {
+        return "SpuImage{" +
+                "id='" + id + '\'' +
+                ", spuId='" + spuId + '\'' +
+                ", imgName='" + imgName + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                '}';
+    }
 }
