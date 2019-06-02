@@ -55,4 +55,20 @@ public class AttrServiceImpl implements AttrService {
         baseAttrInfo.setAttrValueList(baseAttrValueList);
         return baseAttrInfo;
     }
+
+    @Override
+    public List<BaseAttrInfo> getAttrListByCtg3Id(String catalog3Id) {
+
+        BaseAttrInfo baseAttrInfo = new BaseAttrInfo();
+        baseAttrInfo.setCatalog3Id(catalog3Id);
+        List<BaseAttrInfo> baseAttrInfos = baseAttrInfoMapper.select(baseAttrInfo);
+        for (BaseAttrInfo attrInfo : baseAttrInfos) {
+            String attrId = attrInfo.getId();
+            BaseAttrValue baseAttrValue = new BaseAttrValue();
+            baseAttrValue.setAttrId(attrId);
+            List<BaseAttrValue> baseAttrValues = baseAttrValueMapper.select(baseAttrValue);
+            attrInfo.setAttrValueList(baseAttrValues);
+        }
+        return baseAttrInfos;
+    }
 }

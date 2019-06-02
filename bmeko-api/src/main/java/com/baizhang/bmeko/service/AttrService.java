@@ -10,4 +10,6 @@ public interface AttrService {
     void saveAttr(BaseAttrInfo baseAttrInfo);
 
     BaseAttrInfo getAttrInfo(String id);
+
+    List<BaseAttrInfo> getAttrListByCtg3Id(String catalog3Id);
 }

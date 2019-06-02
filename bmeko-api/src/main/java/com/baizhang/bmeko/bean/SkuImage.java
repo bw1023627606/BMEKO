@@ -22,7 +22,7 @@ public class SkuImage  implements Serializable {
     @Column
     String spuImgId;
     @Column
-    String isDefault;
+    String isDefault = "0";
 
     public String getId() {
         return id;

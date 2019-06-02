@@ -9,6 +9,7 @@ import com.baizhang.bmeko.manage.mapper.*;
 import com.baizhang.bmeko.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,14 +70,40 @@ public class SpuServiceImpl implements SpuService {
             spuImage.setImgName("美女4号");
             spuImage.setImgUrl("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1297505592,1789076279&fm=27&gp=0.jpg");
         }else{
-            spuImage.setImgName("美女4号");
+            spuImage.setImgName("美女5号");
             spuImage.setImgUrl("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1521901788,831589994&fm=26&gp=0.jpg");
         }
         spuImageMapper.insert(spuImage);
     }
 
+    @Override
+    public List<SpuSaleAttr> getSaleAttrListBySpuId(String spuId) {
 
+        SpuSaleAttr spuSaleAttr = new SpuSaleAttr();
+        spuSaleAttr.setSpuId(spuId);
+        List<SpuSaleAttr> spuSaleAttrs = spuSaleAttrMapper.select(spuSaleAttr);
+        List<SpuSaleAttr> spuSaleAttrs1 = new ArrayList<>();
+        for (SpuSaleAttr saleAttr:spuSaleAttrs) {
+            String saleAttrId = saleAttr.getSaleAttrId();
+            SpuSaleAttrValue spuSaleAttrValue = new SpuSaleAttrValue();
+            spuSaleAttrValue.setSaleAttrId(saleAttrId);
+            spuSaleAttrValue.setSpuId(spuId);
+            List<SpuSaleAttrValue> spuSaleAttrValues = spuSaleAttrValueMapper.select(spuSaleAttrValue);
+            saleAttr.setSpuSaleAttrValueList(spuSaleAttrValues);
+        }
+
+        return spuSaleAttrs;
     }
+
+    @Override
+    public List<SpuImage> getSpuImageListBySpuId(String spuId) {
+        SpuImage spuImage = new SpuImage();
+        spuImage.setSpuId(spuId);
+        return spuImageMapper.select(spuImage);
+    }
+
+
+}
 
 
 

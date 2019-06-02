@@ -67,4 +67,5 @@ public class SpuSaleAttrValue implements Serializable {
     public void setIsChecked(String isChecked) {
         this.isChecked = isChecked;
     }
+
 }
