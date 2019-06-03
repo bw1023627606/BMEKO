@@ -1,16 +1,14 @@
 package com.baizhang.bmeko.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.baizhang.bmeko.bean.SpuImage;
-import com.baizhang.bmeko.bean.SpuInfo;
-import com.baizhang.bmeko.bean.SpuSaleAttr;
-import com.baizhang.bmeko.bean.SpuSaleAttrValue;
+import com.baizhang.bmeko.bean.*;
 import com.baizhang.bmeko.manage.mapper.*;
 import com.baizhang.bmeko.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SpuServiceImpl implements SpuService {
@@ -100,6 +98,16 @@ public class SpuServiceImpl implements SpuService {
         SpuImage spuImage = new SpuImage();
         spuImage.setSpuId(spuId);
         return spuImageMapper.select(spuImage);
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(Map<String, String> stringStringHashMap) {
+        return spuSaleAttrValueMapper.selectSpuSaleAttrListCheckBySku(stringStringHashMap);
+    }
+
+    @Override
+    public List<SkuInfo> getSkuSaleAttrValueListBySpu(String spuId) {
+        return spuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);
     }
 
 
