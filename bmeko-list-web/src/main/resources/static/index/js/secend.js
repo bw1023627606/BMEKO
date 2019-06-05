@@ -1,6 +1,6 @@
 $(window).scroll(function(event) {
   var hi = $(document).scrollTop();
-  console.log(hi)
+  // console.log(hi)
 })
 var myswiper = new Swiper(".swiper_section_second_list_left", {
   prevButton: '.swiper-button-prev',

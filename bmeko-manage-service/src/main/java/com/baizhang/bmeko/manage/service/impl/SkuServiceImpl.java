@@ -134,6 +134,23 @@ public class SkuServiceImpl implements SkuService {
         return skuInfo;
     }
 
+    @Override
+    public List<SkuInfo> getSkuListBycaralog3Id(String catalog3Id) {
+        SkuInfo skuInfo = new SkuInfo();
+        skuInfo.setCatalog3Id(catalog3Id);
+        List<SkuInfo> skuInfos = skuInfoMapper.select(skuInfo);
+
+        for (SkuInfo info : skuInfos) {
+            String id = info.getId();
+            SkuAttrValue skuAttrValue = new SkuAttrValue();
+            skuAttrValue.setSkuId(id);
+            List<SkuAttrValue> skuAttrValues = skuAttrValueMapper.select(skuAttrValue);
+            info.setSkuAttrValueList(skuAttrValues);
+        }
+
+        return skuInfos;
+    }
+
     private SkuInfo getSkuByIdFromDb(String skuId) {
 
         SkuInfo skuInfo = new SkuInfo();
