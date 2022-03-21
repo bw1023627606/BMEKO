@@ -15,7 +15,7 @@
 
     <properties>
         <dubbo-starter.version>1.0.10</dubbo-starter.version>
-        <dubbo.version>2.6.0</dubbo.version>
+        <dubbo.version>2.6.9</dubbo.version>
         <zkclient.version>0.10</zkclient.version>
     </properties>
     <dependencies>
